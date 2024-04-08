@@ -1,0 +1,18 @@
+x 0 y 0 r 1
+#rect values
+rect x 10 y -10 xside 3 yside 4 theta 0.15 color 0xFFFF0000
+rect x 11 y -10 xside 3 yside 4 theta 0.15 color 0xFFFFFF00
+rect x 12 y -10 xside 3 yside 4 theta 0.15 color 0xFF00FF00
+rect x 13 y -10 xside 3 yside 4 theta 0.15 color 0xFF00FFFF
+rect x 14 y -10 xside 3 yside 4 theta 0.15 color 0xFF0000FF
+rect x 15 y -10 xside 3 yside 4 theta 0.15 color 0xFFFF00FF
+rect x 10 y 0 xside 3 yside 4 theta 0.15 color 0xFFFF0000
+rect x 11 y 0 xside 3 yside 4 theta 0.15 color 0xFFFFFF00
+rect x 12 y 0 xside 3 yside 4 theta 0.15 color 0xFF00FF00
+rect x 13 y 0 xside 3 yside 4 theta 0.15 color 0xFF00FFFF
+rect x 14 y 0 xside 3 yside 4 theta 0.15 color 0xFF0000FF
+rect x 15 y 0 xside 3 yside 4 theta 0.15 color 0xFFFF00FF
+rect x 10 y 10 xside 3 yside 4 theta 0.15 color 0xFFFF0000
+rect x 11 y 10 xside 3 yside 4 theta 0.15 color 0xFFFFFF00
+rect x 12 y 10 xside 3 yside 4 theta 0.15 color 0xFF00FF00
+rect x 13 y 10 xside 3 yside 4 theta 0.15 color 0x5500FFFF
