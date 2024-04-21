@@ -1,0 +1,17 @@
+## Simple 2D Game Engine
+This is a simple engine I made just to mess around in C. Features are limited.
+
+# Engine Basics
+All game code is focused around the file ./headers/main.h. This contains the startup and loop code, as well as additional information like keyboard inputs. The file ./headers/defines.h contains helpful definitions, such as screen dimentions and frame limits.
+
+# Game Objects
+These are defined in the ./headers/object_defines.h. They consist of a transform, a sprite, and a collider. All objects are inside of the objects[] array. The object array size is determined in the same file. Objects can be created with the instantiate(struct GameObject *prefab, struct Transform *spawn_transform, int *tag) function. The tag value returns the location of the object in objects[].
+
+# Transforms
+Defined in ./headers/object_defines.h. Contains a position and rotation of every object.
+
+# Sprites
+Sprites consist of 16 rectangles. You can change this amount in ./headers/object_defines.h. Each one has relative coorinates to the object, a length and a width, a color, and a rotation.
+
+# Colliders
+All colliders are also very basic. They consist of circle colliders. As of right now, collisions cannot rotate objects.
