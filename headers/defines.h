@@ -1,4 +1,4 @@
-#define screenx 1920
-#define screeny 1080
+#define screenx 800
+#define screeny 450
 #define frame_limit 60
-#define auto_fullscreen true
+#define auto_fullscreen false

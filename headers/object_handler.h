@@ -1,7 +1,7 @@
 //structs
 
 
-/*struct Wall {
+struct Wall {
 	float x1;
 	float y1;
 	float x2;
@@ -12,7 +12,7 @@
 
 #define max_walls 512
 struct Wall walls[512];
-*/
+
 struct Transform {
 	float x;
 	float y;

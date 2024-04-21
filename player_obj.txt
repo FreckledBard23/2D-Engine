@@ -1,5 +1,5 @@
 #transform x, y, and rotation
-x 3 y 0 r 0
+x -2 y 0 r 0
 
 #sprite
 #contains each rectange position, dimentions, rotation, and color

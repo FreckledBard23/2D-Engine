@@ -6,23 +6,23 @@
 
 
 // Function to check if a line segment intersects a circle
-/*bool doesIntersect(float x1, float y1, float x2, float y2, float cx, float cy, float radius) {
+bool doesIntersect(float x1, float y1, float x2, float y2, float cx, float cy, float radius, float *closestX, float *closestY, float *distToCenter) {
     // Calculate direction vector of the line segment
-    double dx = x2 - x1;
-    double dy = y2 - y1;
+    float dx = x2 - x1;
+    float dy = y2 - y1;
 
     // Calculate vector from one endpoint of the line segment to the center of the circle
-    double ex = cx - x1;
-    double ey = cy - y1;
+    float ex = cx - x1;
+    float ey = cy - y1;
 
     // Calculate dot product of direction vector and vector to circle center
-    double dotProduct = dx * ex + dy * ey;
+    float dotProduct = dx * ex + dy * ey;
 
     // Calculate squared length of the direction vector
-    double lengthSquared = dx * dx + dy * dy;
+    float lengthSquared = dx * dx + dy * dy;
 
     // Parameter t for the closest point on the line segment to the circle center
-    double t;
+    float t;
 
     // Check if the closest point is beyond the endpoints of the line segment
     if (dotProduct <= 0) {
@@ -34,14 +34,13 @@
     }
 
     // Closest point on the line segment to the circle center
-    double closestX = x1 + t * dx;
-    double closestY = y1 + t * dy;
+    *closestX = x1 + t * dx;
+    *closestY = y1 + t * dy;
 
     // Calculate distance between the closest point and the circle center
-    double distToCenter = distance(closestX, closestY, cx, cy);
-
+    *distToCenter = distance(*closestX, *closestY, cx, cy);
     // Check if the distance is less than or equal to the radius
-    return distToCenter <= radius;
+    return *distToCenter <= radius;
 }
 
 // Function to calculate the dot product of two vectors
@@ -68,9 +67,9 @@ void reflect(float Mx, float My, float x1, float y1, float x2, float y2, float *
     double dot = dotProduct(Mx, My, normalX, normalY);
 
     // Calculate the reflection vector
-    *Rx = Mx - 2 * dot * normalX;
-    *Ry = My - 2 * dot * normalY;
-}*/
+    *Rx = (float)(Mx - 2 * dot * normalX);
+    *Ry = (float)(My - 2 * dot * normalY);
+}
 
 
 //                                          END OF CHATGPT CODE
@@ -152,31 +151,49 @@ void update_physics(){
 		}
 	}
 	//COLLISIONS WITH WALLS
-	/*for(int i = 0; i <= max_tag; i++){
+	for(int i = 0; i <= max_tag; i++){
 		if(!objects[i].empty){
 			for(int w = 0; w < max_walls; w++){
 				if(walls[w].exists){
 					for(int c = 0; c < collider_amount; c++){
-						bool hit = doesIntersect(walls[w].x1, walls[w].y1, walls[w].x2, walls[w].y2, objects[i].collider.circlex[c], objects[i].collider.circley[c], objects[i].collider.radius[c]);
+						float rot_circle_x = objects[i].collider.circlex[c] + objects[i].transform.x;
+						float rot_circle_y = objects[i].collider.circley[c] + objects[i].transform.y;
+						rotate_around_point(&rot_circle_x, &rot_circle_y, objects[i].transform.rotation, objects[i].transform.x, objects[i].transform.y);
+						float closex, closey, d;
+						bool hit = doesIntersect(walls[w].x1, walls[w].y1, walls[w].x2, walls[w].y2, rot_circle_x, rot_circle_y, objects[i].collider.radius[c], &closex, &closey, &d);
 						if(hit){
-						//use old point to find what side of the wall we should be on
-							//bool old_side = point_above_line(walls[w].x1, walls[w].y1, walls[w].x2, walls[w].y2, objects[i].transform.old_x, objects[i].transform.old_y);
-							//bool side = point_above_line(walls[w].x1, walls[w].y1, walls[w].x2, walls[w].y2, objects[i].transform.x, objects[i].transform.y);
-					
 							float reflect_vector_x; float reflect_vector_y;
 							reflect(objects[i].transform.x - objects[i].transform.old_x,
 								objects[i].transform.y - objects[i].transform.old_y,
 								walls[w].x1, walls[w].y1, walls[w].x2, walls[w].y2,
 								&reflect_vector_x, &reflect_vector_y);
+	
+							//copied code from circle intersection
+							// if they are the same point, give up
+							float dist = distance(objects[i].transform.x, objects[i].transform.y, closex, closey);
+							if(dist != 0){
+								//calculate movement vector for obj 1
+								float vect_x = (objects[i].transform.x - closex);
+								float vect_y = (objects[i].transform.y - closey);
+								float amplitude = distance(0, 0, vect_x, vect_y);
+								vect_x /= amplitude;
+								vect_y /= amplitude;
+	
+								vect_x *= objects[i].collider.radius[c] - dist;
+								vect_y *= objects[i].collider.radius[c] - dist;
+								
+								objects[i].transform.x += vect_x;
+								objects[i].transform.y += vect_y;
 
-							objects[i].transform.old_x = objects[i].transform.x - reflect_vector_x;
-							objects[i].transform.old_y = objects[i].transform.y - reflect_vector_y;
+								//objects[i].transform.old_x = objects[i].transform.x - reflect_vector_x;
+								//objects[i].transform.old_y = objects[i].transform.y - reflect_vector_y;
+							}
 						}
 					}
 				}
 			}
 		}
-	}*/
+	}
 	
 	//OBJECT COLLISIONS
 	for(int i = 0; i <= max_tag; i++){

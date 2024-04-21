@@ -24,6 +24,12 @@ void main_start(){
 	instantiate(&ob, &ob.transform, &player_tag);
 	ob = obj_from_txt("test_obj.txt");
 	instantiate(&ob, &ob.transform, &temp_tag);
+
+	walls[0].x1 = -10;
+	walls[0].y1 = -10;
+	walls[0].x2 = 10;
+	walls[0].y2 = 10;
+	walls[0].exists = true;
 }
 
 //MAIN CODE LOOP

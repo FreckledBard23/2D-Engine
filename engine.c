@@ -46,7 +46,19 @@ float deltatime = 0;
 
 void display(){
 	glClear(GL_COLOR_BUFFER_BIT);
-	
+
+	for(int i = 0; i < max_walls; i++){
+		if(walls[i].exists){
+			draw_line(
+					(walls[i].x1 - camera_x) * zoom + screenx / 2,				    
+					(walls[i].y1 - camera_y) * zoom + screeny / 2,
+					(walls[i].x2 - camera_x) * zoom + screenx / 2,
+					(walls[i].y2 - camera_y) * zoom + screeny / 2, 
+					0xFFFFFFFF);
+		}
+	}
+
+
 	for(int i = 0; i <= max_tag; i++){
 		float obj_rot = objects[i].transform.rotation;
 		float obj_posx = objects[i].transform.x;
@@ -88,8 +100,8 @@ int main(int argc, char** argv) {
 	}
 
 	//init walls
-	//for(int i = 0; i < max_walls; i++)
-	//	walls[i].exists = false;
+	for(int i = 0; i < max_walls; i++)
+		walls[i].exists = false;
 
 	//in headers/main.h
 	main_start();

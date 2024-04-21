@@ -1,5 +1,5 @@
 #transform position and rotation
-x 0 y 0 r 1
+x 0 y 2 r 1
 
 #sprite rectangle values (position, size, rotation, and color)
 rect x 0 y 0 xside 1 yside 1 theta 0.45 color 0xFFFF0000
