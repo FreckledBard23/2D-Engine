@@ -2,3 +2,5 @@ TODO
 
 fixed lines for collision (for world building)
 obj editer tool
+rendering textures for backround
+screen effects

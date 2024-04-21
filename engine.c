@@ -87,6 +87,10 @@ int main(int argc, char** argv) {
 		objects[i].collider.enabled = false;
 	}
 
+	//init walls
+	//for(int i = 0; i < max_walls; i++)
+	//	walls[i].exists = false;
+
 	//in headers/main.h
 	main_start();
 

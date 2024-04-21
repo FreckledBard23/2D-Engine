@@ -2,6 +2,79 @@
 //                                GENERAL USE FUNCTIONS
 
 
+//                                          GENERATED WITH CHATGPT
+
+
+// Function to check if a line segment intersects a circle
+/*bool doesIntersect(float x1, float y1, float x2, float y2, float cx, float cy, float radius) {
+    // Calculate direction vector of the line segment
+    double dx = x2 - x1;
+    double dy = y2 - y1;
+
+    // Calculate vector from one endpoint of the line segment to the center of the circle
+    double ex = cx - x1;
+    double ey = cy - y1;
+
+    // Calculate dot product of direction vector and vector to circle center
+    double dotProduct = dx * ex + dy * ey;
+
+    // Calculate squared length of the direction vector
+    double lengthSquared = dx * dx + dy * dy;
+
+    // Parameter t for the closest point on the line segment to the circle center
+    double t;
+
+    // Check if the closest point is beyond the endpoints of the line segment
+    if (dotProduct <= 0) {
+        t = 0;
+    } else if (dotProduct >= lengthSquared) {
+        t = 1;
+    } else {
+        t = dotProduct / lengthSquared;
+    }
+
+    // Closest point on the line segment to the circle center
+    double closestX = x1 + t * dx;
+    double closestY = y1 + t * dy;
+
+    // Calculate distance between the closest point and the circle center
+    double distToCenter = distance(closestX, closestY, cx, cy);
+
+    // Check if the distance is less than or equal to the radius
+    return distToCenter <= radius;
+}
+
+// Function to calculate the dot product of two vectors
+double dotProduct(double x1, double y1, double x2, double y2) {
+    return x1 * x2 + y1 * y2;
+}
+
+// Function to calculate the reflection vector
+void reflect(float Mx, float My, float x1, float y1, float x2, float y2, float *Rx, float *Ry) {
+    // Calculate the direction vector of the line
+    double lineVectorX = x2 - x1;
+    double lineVectorY = y2 - y1;
+
+    // Calculate the normal vector of the line
+    double normalX = -lineVectorY; // Perpendicular vector to the line
+    double normalY = lineVectorX;
+
+    // Normalize the normal vector
+    double magnitude = sqrt(normalX * normalX + normalY * normalY);
+    normalX /= magnitude;
+    normalY /= magnitude;
+
+    // Calculate the dot product of M and N
+    double dot = dotProduct(Mx, My, normalX, normalY);
+
+    // Calculate the reflection vector
+    *Rx = Mx - 2 * dot * normalX;
+    *Ry = My - 2 * dot * normalY;
+}*/
+
+
+//                                          END OF CHATGPT CODE
+
 void circle_intersection(float x1, float y1, float rad1, float x2, float y2, float rad2, float *offset_x, float *offset_y){
 	// if they are the same point, give up
 	if(x1 == x2 && y1 == y2)
@@ -66,19 +139,46 @@ void obj_add_force(int tag, float force_x, float force_y){
 //                                MAIN PHYSICS LOOP
 void update_physics(){
 	for(int i = 0; i <= max_tag; i++){
+		//MOVEMENT ACCORDING TO VERLET INTEGRATION
 		if(!objects[i].empty && objects[i].collider.do_physics){
 			float velocity_x = objects[i].transform.x - objects[i].transform.old_x;
 			float velocity_y = objects[i].transform.y - objects[i].transform.old_y;
 		
 			objects[i].transform.old_x = objects[i].transform.x;
 			objects[i].transform.old_y = objects[i].transform.y;
-			
+		
 			objects[i].transform.x += (velocity_x + objects[i].collider.acceleration_x) * (1 - objects[i].collider.drag_coeff) + objects[i].collider.gravity_force_x;
 			objects[i].transform.y += (velocity_y + objects[i].collider.acceleration_y) * (1 - objects[i].collider.drag_coeff) + objects[i].collider.gravity_force_y;
 		}
 	}
+	//COLLISIONS WITH WALLS
+	/*for(int i = 0; i <= max_tag; i++){
+		if(!objects[i].empty){
+			for(int w = 0; w < max_walls; w++){
+				if(walls[w].exists){
+					for(int c = 0; c < collider_amount; c++){
+						bool hit = doesIntersect(walls[w].x1, walls[w].y1, walls[w].x2, walls[w].y2, objects[i].collider.circlex[c], objects[i].collider.circley[c], objects[i].collider.radius[c]);
+						if(hit){
+						//use old point to find what side of the wall we should be on
+							//bool old_side = point_above_line(walls[w].x1, walls[w].y1, walls[w].x2, walls[w].y2, objects[i].transform.old_x, objects[i].transform.old_y);
+							//bool side = point_above_line(walls[w].x1, walls[w].y1, walls[w].x2, walls[w].y2, objects[i].transform.x, objects[i].transform.y);
+					
+							float reflect_vector_x; float reflect_vector_y;
+							reflect(objects[i].transform.x - objects[i].transform.old_x,
+								objects[i].transform.y - objects[i].transform.old_y,
+								walls[w].x1, walls[w].y1, walls[w].x2, walls[w].y2,
+								&reflect_vector_x, &reflect_vector_y);
 
-	//-----OBJECT COLLISIONS-----//
+							objects[i].transform.old_x = objects[i].transform.x - reflect_vector_x;
+							objects[i].transform.old_y = objects[i].transform.y - reflect_vector_y;
+						}
+					}
+				}
+			}
+		}
+	}*/
+	
+	//OBJECT COLLISIONS
 	for(int i = 0; i <= max_tag; i++){
 		for(int j = i; j <= max_tag; j++){
 			if(!objects[i].empty && !objects[j].empty && objects[i].collider.enabled && objects[j].collider.enabled && j != i){

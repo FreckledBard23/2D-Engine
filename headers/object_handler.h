@@ -1,6 +1,18 @@
 //structs
 
 
+/*struct Wall {
+	float x1;
+	float y1;
+	float x2;
+	float y2;
+
+	bool exists;
+};
+
+#define max_walls 512
+struct Wall walls[512];
+*/
 struct Transform {
 	float x;
 	float y;
@@ -123,15 +135,17 @@ struct gameobject obj_from_txt(const char* filename){
 				sprite_rect_index++;
 			}
 			if(str_in[0] == 'p')
-				sscanf(str_in, "physics_enabled %d collider_enabled %d drag_force %f gravity_x %f gravity_y %d", &load_obj.collider.do_physics, &load_obj.collider.enabled, &load_obj.collider.drag_coeff, &load_obj.collider.gravity_force_x, &load_obj.collider.gravity_force_y);
+				sscanf(str_in, "physics_enabled %d collider_enabled %d drag_force %f gravity_x %f gravity_y %f", &load_obj.collider.do_physics, &load_obj.collider.enabled, &load_obj.collider.drag_coeff, &load_obj.collider.gravity_force_x, &load_obj.collider.gravity_force_y);
 			if(str_in[0] == 'c'){
 				sscanf(str_in, "collider x %f y %f radius %f", &load_obj.collider.circlex[collider_index], &load_obj.collider.circley[collider_index], &load_obj.collider.radius[collider_index]);
 				collider_index++;
 			}
 		}
 	}
+	//prevent random accelerations
+	load_obj.collider.acceleration_x = 0;
+	load_obj.collider.acceleration_y = 0;
 	// Close the file
 	fclose(fptr);
-//	printf("color %x", load_obj.sprite.col[sprite_rect_index]);	
 	return load_obj;
 }
