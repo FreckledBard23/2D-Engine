@@ -82,26 +82,30 @@ void update_physics(){
 	for(int i = 0; i <= max_tag; i++){
 		for(int j = i; j <= max_tag; j++){
 			if(!objects[i].empty && !objects[j].empty && objects[i].collider.enabled && objects[j].collider.enabled && j != i){
-				//calculate world circle positions
-				float rot_circle_x1 = objects[i].collider.circlex + objects[i].transform.x;
-				float rot_circle_y1 = objects[i].collider.circley + objects[i].transform.y;
-				rotate_around_point(&rot_circle_x1, &rot_circle_y1, objects[i].transform.rotation, objects[i].transform.x, objects[i].transform.y);
+				for(int c = 0; c < collider_amount; c++){
+					for(int c2 = 0; c2 < collider_amount; c2++){
+						//calculate world circle positions
+						float rot_circle_x1 = objects[i].collider.circlex[c] + objects[i].transform.x;
+						float rot_circle_y1 = objects[i].collider.circley[c] + objects[i].transform.y;
+						rotate_around_point(&rot_circle_x1, &rot_circle_y1, objects[i].transform.rotation, objects[i].transform.x, objects[i].transform.y);
 
-				float rot_circle_x2 = objects[j].collider.circlex + objects[j].transform.x;
-				float rot_circle_y2 = objects[j].collider.circley + objects[j].transform.y;
-				rotate_around_point(&rot_circle_x2, &rot_circle_y2, objects[j].transform.rotation, objects[j].transform.x, objects[j].transform.y);
+						float rot_circle_x2 = objects[j].collider.circlex[c2] + objects[j].transform.x;
+						float rot_circle_y2 = objects[j].collider.circley[c2] + objects[j].transform.y;
+						rotate_around_point(&rot_circle_x2, &rot_circle_y2, objects[j].transform.rotation, objects[j].transform.x, objects[j].transform.y);
 
-				//move said circles
-				float x_off = 0; float y_off = 0;
-				circle_intersection(
-						rot_circle_x1, rot_circle_y1, objects[i].collider.radius,
-						rot_circle_x2, rot_circle_y2, objects[j].collider.radius,
-						&x_off, &y_off);
+						//move said circles
+						float x_off = 0; float y_off = 0;
+						circle_intersection(
+							rot_circle_x1, rot_circle_y1, objects[i].collider.radius[c],
+							rot_circle_x2, rot_circle_y2, objects[j].collider.radius[c2],
+							&x_off, &y_off);
 
-				objects[i].transform.x += x_off;
-				objects[i].transform.y += y_off;
-				objects[j].transform.x -= x_off;
-				objects[j].transform.y -= y_off;
+						objects[i].transform.x += x_off;
+						objects[i].transform.y += y_off;
+						objects[j].transform.x -= x_off;
+						objects[j].transform.y -= y_off;
+					}
+				}
 			}
 		}
 	}

@@ -22,12 +22,8 @@ void main_start(){
 	struct gameobject ob;
 	ob = obj_from_txt("player_obj.txt");
 	instantiate(&ob, &ob.transform, &player_tag);
-	objects[player_tag].collider.radius = 1.414;
-	objects[player_tag].collider.drag_coeff = 0.1;
 	ob = obj_from_txt("test_obj.txt");
 	instantiate(&ob, &ob.transform, &temp_tag);
-	objects[temp_tag].collider.radius = 0.707;
-	objects[temp_tag].collider.drag_coeff = 0.01;
 }
 
 //MAIN CODE LOOP

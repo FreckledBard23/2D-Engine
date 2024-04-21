@@ -1,6 +1,10 @@
+#transform position and rotation
 x 0 y 0 r 1
-#rect values
+
+#sprite rectangle values (position, size, rotation, and color)
 rect x 0 y 0 xside 1 yside 1 theta 0.45 color 0xFFFF0000
+
+#empty values to prevent against garbage data
 rect x 0 y 0 xside 0 yside 0 theta 0 color 0x0
 rect x 0 y 0 xside 0 yside 0 theta 0 color 0x0
 rect x 0 y 0 xside 0 yside 0 theta 0 color 0x0
@@ -16,3 +20,28 @@ rect x 0 y 0 xside 0 yside 0 theta 0 color 0x0
 rect x 0 y 0 xside 0 yside 0 theta 0 color 0x0
 rect x 0 y 0 xside 0 yside 0 theta 0 color 0x0
 rect x 0 y 0 xside 0 yside 0 theta 0 color 0x0
+
+#physics system
+#1 is true, 0 is false
+#drag and gravity are floats
+physics_enabled 1 collider_enabled 1 drag_force 0.01 gravity_x 0 gravity_y 0
+
+#colliders
+collider x 0 y 0 radius 0.707
+
+#empty values for the same reason
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0

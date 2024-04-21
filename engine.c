@@ -97,7 +97,8 @@ int main(int argc, char** argv) {
 	glutDisplayFunc(display);
 	gluOrtho2D(0,screenx,0,screeny);
 	glClearColor(0,0,0,0);
-	glutFullScreen();
+	if(auto_fullscreen)
+		glutFullScreen();
 	glutTimerFunc(frame_time_length, update, 0);
 	glutKeyboardFunc(keyboard);
 	glutMainLoop();

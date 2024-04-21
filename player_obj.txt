@@ -1,4 +1,8 @@
+#transform x, y, and rotation
 x 3 y 0 r 0
+
+#sprite
+#contains each rectange position, dimentions, rotation, and color
 rect x 0 y 0 xside 2 yside 2 theta 0 color 0x00FFFF00
 rect x 0 y 0 xside 2 yside 2 theta 0.8 color 0xFFFF00
 
@@ -17,3 +21,28 @@ rect x 0 y 0 xside 0 yside 0 theta 0 color 0x0
 rect x 0 y 0 xside 0 yside 0 theta 0 color 0x0
 rect x 0 y 0 xside 0 yside 0 theta 0 color 0x0
 rect x 0 y 0 xside 0 yside 0 theta 0 color 0x0
+
+#physics system
+# 1 is true, 0 is false
+# drag and gravity are floats
+physics_enabled 1 collider_enabled 1 drag_force 0.1 gravity_x 0 gravity_y 0
+
+#colliders
+collider x 0 y 0 radius 1.414
+
+#again empty values for the same reason
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0
+collider x 0 y 0 radius 0

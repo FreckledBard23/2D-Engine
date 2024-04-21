@@ -1,6 +1,4 @@
 TODO
 
-fixed lines
-add more circles to collider struct
-Add collider support to obj loader
+fixed lines for collision (for world building)
 obj editer tool

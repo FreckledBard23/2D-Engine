@@ -13,14 +13,14 @@ struct Transform {
 	float rotation;
 };
 
-//TODO: FIX THIS MESS
+#define collider_amount 16
 struct Collider {
 	bool enabled;
 	
 	//hitboxes
-	float circlex;
-	float circley;
-	float radius;
+	float circlex[collider_amount];
+	float circley[collider_amount];
+	float radius[collider_amount];
 	
 	//verlet stuff
 	bool do_physics;
@@ -110,6 +110,7 @@ struct gameobject obj_from_txt(const char* filename){
 	char str_in[256];
 	struct gameobject load_obj;
 	int sprite_rect_index = 0;
+	int collider_index = 0;
 	
 	while(fgets(str_in, 256, fptr) != NULL){
 		// Remove comments
@@ -120,6 +121,12 @@ struct gameobject obj_from_txt(const char* filename){
 			if(str_in[0] == 'r'){
 				sscanf(str_in, "rect x %f y %f xside %f yside %f theta %f color %x", &load_obj.sprite.x[sprite_rect_index], &load_obj.sprite.y[sprite_rect_index], &load_obj.sprite.xside[sprite_rect_index], &load_obj.sprite.yside[sprite_rect_index], &load_obj.sprite.theta[sprite_rect_index], &load_obj.sprite.col[sprite_rect_index]);
 				sprite_rect_index++;
+			}
+			if(str_in[0] == 'p')
+				sscanf(str_in, "physics_enabled %d collider_enabled %d drag_force %f gravity_x %f gravity_y %d", &load_obj.collider.do_physics, &load_obj.collider.enabled, &load_obj.collider.drag_coeff, &load_obj.collider.gravity_force_x, &load_obj.collider.gravity_force_y);
+			if(str_in[0] == 'c'){
+				sscanf(str_in, "collider x %f y %f radius %f", &load_obj.collider.circlex[collider_index], &load_obj.collider.circley[collider_index], &load_obj.collider.radius[collider_index]);
+				collider_index++;
 			}
 		}
 	}
