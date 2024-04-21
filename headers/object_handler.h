@@ -1,3 +1,68 @@
+//structs
+
+
+struct Transform {
+	float x;
+	float y;
+	
+	//to calculate velocity for verlet
+	float old_x;
+	float old_y;
+	
+	//only able to be rotated seperately, not by collisions
+	float rotation;
+};
+
+//TODO: FIX THIS MESS
+struct Collider {
+	bool enabled;
+	
+	//hitboxes
+	float circlex;
+	float circley;
+	float radius;
+	
+	//verlet stuff
+	bool do_physics;
+	float acceleration_x;
+	float acceleration_y;
+	float drag_coeff;
+
+	float gravity_force_x;
+	float gravity_force_y;
+};
+
+#define sprite_rects 16
+struct Sprite {
+	//used to draw rectangles
+	//can have up to 16 (value of sprite_rects)
+	//rotated by theta radians
+	//
+	//              xside
+	//         #---------------#
+	//         |               |
+	//   yside |(x, y) #       |
+	//         |               |
+	//         #---------------#
+
+	float x[sprite_rects];
+	float y[sprite_rects];
+	float xside[sprite_rects];
+	float yside[sprite_rects];
+	uint32_t col[sprite_rects];
+	float theta[sprite_rects];
+};
+
+struct gameobject {
+	struct Transform transform;
+	struct Collider collider;
+	bool empty;
+
+	struct Sprite sprite;
+};
+
+
+
 #define max_objects 65536
 struct gameobject objects[max_objects];
 int max_tag = 1;
@@ -9,6 +74,8 @@ void instantiate(struct gameobject *prefab, struct Transform *spawn_pos, int* ta
 		if(objects[index].empty == true){
 			objects[index] = *prefab;
 			objects[index].transform = *spawn_pos;
+			objects[index].transform.old_x = objects[index].transform.x;
+			objects[index].transform.old_y = objects[index].transform.y;
 			objects[index].empty = false;			
 			*tag = index;
 			

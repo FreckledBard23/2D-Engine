@@ -1,0 +1,6 @@
+TODO
+
+fixed lines
+add more circles to collider struct
+Add collider support to obj loader
+obj editer tool

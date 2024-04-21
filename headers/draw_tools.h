@@ -1,5 +1,5 @@
 void hex_color_to_glut(uint32_t color){
-	glColor3f((float)(0xFF0000 & color) / 16777216, (float)(0xFF00 & color) / 65536, (float)(0xFF & color) / 256);
+	glColor3f((float)(0xFF & (color >> 16)) / 255, (float)(0xFF & (color >> 8)) / 255, (float)(0xFF & color) / 255);
 }
 
 void draw_line(int x1, int y1, int x2, int y2, uint32_t color) {

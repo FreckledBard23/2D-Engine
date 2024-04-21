@@ -1,7 +1,8 @@
-x 0 y 0 r 1
-#rect values
-rect x 0 y 0 xside 1 yside 1 theta 0.45 color 0xFFFF0000
-rect x 0 y 0 xside 0 yside 0 theta 0 color 0x0
+x 3 y 0 r 0
+rect x 0 y 0 xside 2 yside 2 theta 0 color 0x00FFFF00
+rect x 0 y 0 xside 2 yside 2 theta 0.8 color 0xFFFF00
+
+#empty values (needed to prevent junk memory)
 rect x 0 y 0 xside 0 yside 0 theta 0 color 0x0
 rect x 0 y 0 xside 0 yside 0 theta 0 color 0x0
 rect x 0 y 0 xside 0 yside 0 theta 0 color 0x0

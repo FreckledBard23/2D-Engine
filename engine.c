@@ -1,4 +1,4 @@
-//#include <windows.h>
+#include <defines.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,38 +23,31 @@ void delay(float number_of_seconds)
         ;
 }
 
+float distance(float x1, float y1, float x2, float y2){
+    float a = x1 - x2;
+    float b = y1 - y2;
+    return sqrt(a * a + b * b);
+}
+
+float deltatime = 0;
+#define frame_time_length (1000 / frame_limit) //length of second in millis / frames in second
+
+//      Object Struct Defines
+#include <physics.h>
 
 //       ----------------------SCREEN----------------------
-#define screenx 1920 
-#define screeny 1080
 #include <glut.h>
 #include <draw_tools.h>
 //       ----------------------SCREEN----------------------
 
 
-float distance(int x1, int y1, int x2, int y2){
-    float a = fabs(x1 - x2);
-    float b = fabs(y1 - y2);
-    return sqrt(a * a + b * b);
-}
-
-
-//      Object Struct Defines
-#include <physics.h>
-#include <object_handler.h>
-
-//      Player Definitions
-float camera_x = 0;
-float camera_y = 0;
-float zoom = 10;
-
-float deltatime = 0;
-#define frame_time_length (1000 / 60) //length of second in millis / frames in second
+//game code location (./headers/main.h)
+#include <main.h>
 
 void display(){
 	glClear(GL_COLOR_BUFFER_BIT);
 	
-	for(int i = 0; i < max_tag; i++){
+	for(int i = 0; i <= max_tag; i++){
 		float obj_rot = objects[i].transform.rotation;
 		float obj_posx = objects[i].transform.x;
 		float obj_posy = objects[i].transform.y;
@@ -68,7 +61,8 @@ void display(){
 			//rotate all centers if the object is rotated
 			rotate_around_origin(&centerx, &centery, obj_rot);
 			
-			draw_box_rotated((centerx + obj_posx - camera_x) * zoom + screenx / 2, (centery + obj_posy - camera_y) * zoom + screeny / 2, objects[i].sprite.col[s], sidex * zoom, sidey * zoom, objects[i].sprite.theta[s] + obj_rot); 
+			if(sidex != 0 && sidey != 0)
+				draw_box_rotated((centerx + obj_posx - camera_x) * zoom + screenx / 2, (centery + obj_posy - camera_y) * zoom + screeny / 2, objects[i].sprite.col[s], sidex * zoom, sidey * zoom, objects[i].sprite.theta[s] + obj_rot); 
 		}
 	}
 
@@ -76,18 +70,8 @@ void display(){
 	glutSwapBuffers();
 }
 
-int player_tag = 0;
-void keyboard(unsigned char key, int x, int y){
-	if(key == 'w') { objects[player_tag].transform.y -= 1; }
-	if(key == 'a') { objects[player_tag].transform.x -= 1; }
-	if(key == 's') { objects[player_tag].transform.y += 1; }
-	if(key == 'd') { objects[player_tag].transform.x += 1; }
-	if(key == 'q') { zoom *= 1.1; }
-	if(key == 'e') { zoom /= 1.1; }
-}
-
-#include <main.h>
 void update(int a){
+	update_physics();
 	code_loop(); //calls main code loop from headers/main.h
 
 	//tells opengl to update screen
@@ -100,19 +84,18 @@ int main(int argc, char** argv) {
     	//init object arr
     	for(int i = 0; i < max_objects; i++){
 		objects[i].empty = true;
+		objects[i].collider.enabled = false;
 	}
-	
-	//init test_obj.txt
-	//sets player_tag to be the index in obj array 
-	struct gameobject ob = obj_from_txt("test_obj.txt");
-	instantiate(&ob, &ob.transform, &player_tag);
+
+	//in headers/main.h
+	main_start();
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	glutInitWindowSize(screenx, screeny);
 	glutCreateWindow("2D-Engine");
 	glutDisplayFunc(display);
-	gluOrtho2D(0,screenx,screeny,0);
+	gluOrtho2D(0,screenx,0,screeny);
 	glClearColor(0,0,0,0);
 	glutFullScreen();
 	glutTimerFunc(frame_time_length, update, 0);
