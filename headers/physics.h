@@ -223,8 +223,15 @@ void update_physics(){
 								objects[i].transform.y += vect_y;
 								
 								//glitched through wall
-								if(old_side != current_side)
-									reflectPointOverLine(&objects[i].transform.x, &objects[i].transform.y, walls[w].x1, walls[w].y1, walls[w].x2, walls[w].y2);
+								if(old_side != current_side){
+									float new_x = rot_circle_x; float new_y = rot_circle_y;
+									reflectPointOverLine(&new_x, &new_y, walls[w].x1, walls[w].y1, walls[w].x2, walls[w].y2);
+									float return_vector_x = new_x - rot_circle_x;
+									float return_vector_y = new_y - rot_circle_y;
+
+									objects[i].transform.x += return_vector_x;
+									objects[i].transform.y += return_vector_y;
+								}
 
 								objects[i].transform.old_x = objects[i].transform.x - reflect_vector_x;
 								objects[i].transform.old_y = objects[i].transform.y - reflect_vector_y;
