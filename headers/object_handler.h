@@ -8,6 +8,7 @@ struct Wall {
 	float y2;
 
 	bool exists;
+	bool display;
 };
 
 #define max_walls 512

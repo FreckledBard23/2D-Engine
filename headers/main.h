@@ -29,7 +29,12 @@ void main_start(){
 	walls[0].y1 = -10;
 	walls[0].x2 = 10;
 	walls[0].y2 = 10;
+	walls[1].x1 = -9;
+	walls[1].y1 = -9;
+	walls[1].x2 = 9;
+	walls[1].y2 = 9;
 	walls[0].exists = true;
+	walls[1].exists = true;
 }
 
 //MAIN CODE LOOP

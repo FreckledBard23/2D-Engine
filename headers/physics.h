@@ -71,6 +71,36 @@ void reflect(float Mx, float My, float x1, float y1, float x2, float y2, float *
     *Ry = (float)(My - 2 * dot * normalY);
 }
 
+float calculateSlope(float x1, float y1, float x2, float y2) {
+    // Calculate the slope of the line passing through points (x1, y1) and (x2, y2)
+    return (y2 - y1) / (x2 - x1);
+}
+
+float calculateYIntercept(float x1, float y1, float x2, float y2) {
+    // Calculate the y-intercept of the line passing through points (x1, y1) and (x2, y2)
+    return y1 - calculateSlope(x1, y1, x2, y2) * x1;
+}
+
+void reflectPointOverLine(float *x, float *y, float x1, float y1, float x2, float y2) {
+    // Calculate the slope and y-intercept of the line passing through points (x1, y1) and (x2, y2)
+    float m = calculateSlope(x1, y1, x2, y2);
+    float c = calculateYIntercept(x1, y1, x2, y2);
+
+    // Calculate the perpendicular slope
+    float perp_slope = -1 / m;
+
+    // Calculate the equation of the perpendicular line passing through point (x, y)
+    float perp_c = *y - perp_slope * *x;
+
+    // Calculate the intersection point of the two lines
+    float intersection_x = (c - perp_c) / (perp_slope - m);
+    float intersection_y = m * intersection_x + c;
+
+    // Calculate the reflection point
+    *x = 2 * intersection_x - *x;
+    *y = 2 * intersection_y - *y;
+}
+
 
 //                                          END OF CHATGPT CODE
 
@@ -170,8 +200,15 @@ void update_physics(){
 	
 							//copied code from circle intersection
 							// if they are the same point, give up
-							float dist = distance(objects[i].transform.x, objects[i].transform.y, closex, closey);
+							float dist = distance(rot_circle_x, rot_circle_y, closex, closey);
 							if(dist != 0){
+								float old_rot_circle_x = objects[i].collider.circlex[c] + objects[i].transform.old_x;
+								float old_rot_circle_y = objects[i].collider.circley[c] + objects[i].transform.old_y;
+								rotate_around_point(&old_rot_circle_x, &old_rot_circle_y, objects[i].transform.rotation, objects[i].transform.old_x, objects[i].transform.old_y);
+
+								bool old_side = point_above_line(walls[w].x1, walls[w].y1, walls[w].x2, walls[w].y2, old_rot_circle_x, old_rot_circle_y);
+								bool current_side = point_above_line(walls[w].x1, walls[w].y1, walls[w].x2, walls[w].y2, rot_circle_x, rot_circle_y);
+
 								//calculate movement vector for obj 1
 								float vect_x = (objects[i].transform.x - closex);
 								float vect_y = (objects[i].transform.y - closey);
@@ -184,9 +221,13 @@ void update_physics(){
 								
 								objects[i].transform.x += vect_x;
 								objects[i].transform.y += vect_y;
+								
+								//glitched through wall
+								if(old_side != current_side)
+									reflectPointOverLine(&objects[i].transform.x, &objects[i].transform.y, walls[w].x1, walls[w].y1, walls[w].x2, walls[w].y2);
 
-								//objects[i].transform.old_x = objects[i].transform.x - reflect_vector_x;
-								//objects[i].transform.old_y = objects[i].transform.y - reflect_vector_y;
+								objects[i].transform.old_x = objects[i].transform.x - reflect_vector_x;
+								objects[i].transform.old_y = objects[i].transform.y - reflect_vector_y;
 							}
 						}
 					}
