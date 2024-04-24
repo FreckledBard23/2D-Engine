@@ -25,7 +25,7 @@ rect x 0 y 0 xside 0 yside 0 theta 0 color 0x0
 #physics system
 # 1 is true, 0 is false
 # drag and gravity are floats
-physics_enabled 1 collider_enabled 1 drag_force 0.1 gravity_x 0 gravity_y 0
+physics_enabled 1 collider_enabled 1 drag_force 0.1 gravity_x 0 gravity_y -0.1
 
 #colliders
 collider x 0 y 0 radius 1.414

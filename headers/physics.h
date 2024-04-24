@@ -185,7 +185,7 @@ void update_physics(){
 		if(!objects[i].empty){
 			for(int w = 0; w < max_walls; w++){
 				if(walls[w].exists){
-					for(int c = 0; c < collider_amount; c++){
+					for(int c = 0; c <= objects[i].collider.colliders_used; c++){
 						float rot_circle_x = objects[i].collider.circlex[c] + objects[i].transform.x;
 						float rot_circle_y = objects[i].collider.circley[c] + objects[i].transform.y;
 						rotate_around_point(&rot_circle_x, &rot_circle_y, objects[i].transform.rotation, objects[i].transform.x, objects[i].transform.y);
@@ -247,8 +247,8 @@ void update_physics(){
 	for(int i = 0; i <= max_tag; i++){
 		for(int j = i; j <= max_tag; j++){
 			if(!objects[i].empty && !objects[j].empty && objects[i].collider.enabled && objects[j].collider.enabled && j != i){
-				for(int c = 0; c < collider_amount; c++){
-					for(int c2 = 0; c2 < collider_amount; c2++){
+				for(int c = 0; c < objects[i].collider.colliders_used; c++){
+					for(int c2 = 0; c2 < objects[j].collider.colliders_used; c2++){
 						//calculate world circle positions
 						float rot_circle_x1 = objects[i].collider.circlex[c] + objects[i].transform.x;
 						float rot_circle_y1 = objects[i].collider.circley[c] + objects[i].transform.y;

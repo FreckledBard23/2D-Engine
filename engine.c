@@ -54,7 +54,7 @@ void display(){
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	for(int i = 0; i < max_walls; i++){
-		if(walls[i].exists){
+		if(walls[i].exists && walls[i].display){
 			draw_line(
 					(walls[i].x1 - camera_x) * zoom + screenx / 2,				    
 					(walls[i].y1 - camera_y) * zoom + screeny / 2,

@@ -34,6 +34,7 @@ struct Collider {
 	float circlex[collider_amount];
 	float circley[collider_amount];
 	float radius[collider_amount];
+	int colliders_used;
 	
 	//verlet stuff
 	bool do_physics;
@@ -143,6 +144,7 @@ struct gameobject obj_from_txt(const char* filename){
 			}
 		}
 	}
+	load_obj.collider.colliders_used = collider_index;
 	//prevent random accelerations
 	load_obj.collider.acceleration_x = 0;
 	load_obj.collider.acceleration_y = 0;
