@@ -9,7 +9,13 @@
 
 // To use time library of C
 #include <time.h>
- 
+
+int mouse_screen_x, mouse_screen_y;
+float mouse_world_x, mouse_world_y;
+//mouse world only works correctly if
+//              - not fullscreen
+//              - fullscreen with screenx and screeny correctly mapped to monitor resolution 
+
 void delay(float number_of_seconds)
 {
     // Converting time into milli_seconds
@@ -82,6 +88,13 @@ void display(){
 	glutSwapBuffers();
 }
 
+void mouseMotion(int x, int y){
+	mouse_screen_x = x;
+	mouse_screen_y = -y;
+	mouse_world_x = (float)(x - screenx / 2 + camera_x) / zoom;
+	mouse_world_y = (float)(-y + screeny / 2 + camera_y) / zoom;
+}
+
 void update(int a){
 	update_physics();
 	code_loop(); //calls main code loop from headers/main.h
@@ -117,6 +130,7 @@ int main(int argc, char** argv) {
 		glutFullScreen();
 	glutTimerFunc(frame_time_length, update, 0);
 	glutKeyboardFunc(keyboard);
+	glutPassiveMotionFunc(mouseMotion);
 	glutMainLoop();
     	return 0;
 }

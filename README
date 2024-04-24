@@ -16,6 +16,21 @@ Sprites consist of 16 rectangles. You can change this amount in ./headers/object
 # Colliders
 All colliders are also very basic. They consist 16 (can change in same file as sprites) of circle colliders. As of right now, collisions cannot rotate objects.
 
+# Usefull Variables
+float camera_x and camera_y
+	- camera coordinates in the world
+float zoom
+	- the scale of world coordinates to pixels 
+	- line one world unit in length * zoom = # of pixels drawn for that line
+int mouse_screen_x and mouse_screen_y
+	- mouse coordinates relative to the open window
+float mouse_world_x and mouse_world_y
+	- world mouse coordinates
+	- only work if
+		- not fullscreen
+		     -- OR --
+		- fullscreen with the screenx and screeny variables matching the resolution of your monitor.
+
 # Functions that might be needed
 replace(struct gameobject *prefab, struct transform *spawn_pos, int tag)
 	- almost the exact same as instantiate, but you can choose the location in the objects[] array.

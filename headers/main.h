@@ -39,4 +39,6 @@ void main_start(){
 
 //MAIN CODE LOOP
 void code_loop(){
+	objects[temp_tag].transform.x = mouse_world_x;
+	objects[temp_tag].transform.y = mouse_world_y;
 }
