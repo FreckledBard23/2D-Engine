@@ -24,7 +24,7 @@ void main_start(){
 	instantiate(&ob, &ob.transform, &player_tag);
 	ob = obj_from_txt("test_obj.txt");
 	struct Transform t;
-	for(int i = 0; i < 15; i++){
+	for(int i = 0; i < 20; i++){
 		t.x = 2 * i - 7.5;
 		instantiate(&ob, &t, &temp_tag);
 	}

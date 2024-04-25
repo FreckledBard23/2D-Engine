@@ -179,9 +179,8 @@ void update_physics(){
 			objects[i].transform.x += (velocity_x + objects[i].collider.acceleration_x) * (1 - objects[i].collider.drag_coeff) + objects[i].collider.gravity_force_x;
 			objects[i].transform.y += (velocity_y + objects[i].collider.acceleration_y) * (1 - objects[i].collider.drag_coeff) + objects[i].collider.gravity_force_y;
 		}
-	}
-	//COLLISIONS WITH WALLS
-	for(int i = 0; i <= max_tag; i++){
+	
+		//COLLISIONS WITH WALLS
 		if(!objects[i].empty){
 			for(int w = 0; w < max_walls; w++){
 				if(walls[w].exists){
@@ -241,10 +240,8 @@ void update_physics(){
 				}
 			}
 		}
-	}
 	
-	//OBJECT COLLISIONS
-	for(int i = 0; i <= max_tag; i++){
+		//OBJECT COLLISIONS
 		for(int j = i; j <= max_tag; j++){
 			if(!objects[i].empty && !objects[j].empty && objects[i].collider.enabled && objects[j].collider.enabled && j != i){
 				for(int c = 0; c < objects[i].collider.colliders_used; c++){
